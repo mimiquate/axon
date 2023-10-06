@@ -1,6 +1,6 @@
 Mix.install([
   {:axon, "~> 0.5"},
-  {:exla, "~> 0.5"},
+  {:candlex, path: "../nx/candlex" },
   {:nx, "~> 0.5"},
   {:scidata, "~> 0.1"}
 ])
@@ -40,7 +40,7 @@ defmodule FashionMNIST do
     model
     |> Axon.Loop.trainer(:mean_squared_error, :adam)
     |> Axon.Loop.metric(:mean_absolute_error, "Error")
-    |> Axon.Loop.run(Stream.zip(train_images, train_images), %{}, epochs: epochs, compiler: EXLA)
+    |> Axon.Loop.run(Stream.zip(train_images, train_images), %{}, epochs: epochs)
   end
 
   def run do
@@ -61,10 +61,11 @@ defmodule FashionMNIST do
     sample_image |> Nx.to_heatmap() |> IO.inspect()
 
     model
-    |> Axon.predict(model_state, sample_image, compiler: EXLA)
+    |> Axon.predict(model_state, sample_image)
     |> Nx.to_heatmap()
     |> IO.inspect()
   end
 end
 
+Nx.default_backend(Candlex.Backend)
 FashionMNIST.run()

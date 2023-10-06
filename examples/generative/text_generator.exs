@@ -2,7 +2,7 @@
 Mix.install([
   {:axon, "~> 0.5"},
   {:nx, "~> 0.5"},
-  {:exla, "~> 0.5"},
+  {:candlex, path: "../nx/candlex" },
   {:req, "~> 0.3.3"}
 ])
 
@@ -96,7 +96,7 @@ defmodule TextGenerator do
     params =
       model
       |> Axon.Loop.trainer(:categorical_cross_entropy, Polaris.Optimizers.adam(learning_rate: 0.001))
-      |> Axon.Loop.run(Stream.zip(train_data, train_labels), %{}, epochs: 20, compiler: EXLA)
+      |> Axon.Loop.run(Stream.zip(train_data, train_labels), %{}, epochs: 20)
 
     init_sequence = """
     not like to drop the jar for fear
@@ -110,4 +110,5 @@ defmodule TextGenerator do
   end
 end
 
+Nx.default_backend(Candlex.Backend)
 TextGenerator.run()

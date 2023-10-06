@@ -1,12 +1,10 @@
 Mix.install([
   {:axon, "~> 0.5"},
   {:polaris, "~> 0.1"},
-  {:exla, "~> 0.5"},
+  {:candlex, path: "../nx/candlex" },
   {:nx, "~> 0.5"},
   {:scidata, "~> 0.1"}
 ])
-
-EXLA.set_as_nx_default([:tpu, :cuda, :rocm, :host])
 
 defmodule MNISTGAN do
   require Axon
@@ -184,8 +182,9 @@ defmodule MNISTGAN do
       filter: [every: 50]
     )
     |> Axon.Loop.handle_event(:epoch_completed, &view_generated_images(generator, 3, &1))
-    |> Axon.Loop.run(train_images, %{}, epochs: 10, compiler: EXLA)
+    |> Axon.Loop.run(train_images, %{}, epochs: 10)
   end
 end
 
+Nx.default_backend(Candlex.Backend)
 MNISTGAN.run()

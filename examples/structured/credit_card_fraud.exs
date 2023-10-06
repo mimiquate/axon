@@ -1,7 +1,7 @@
 Mix.install([
   {:axon, "~> 0.5"},
   {:polaris, "~> 0.1"},
-  {:exla, "~> 0.5"},
+  {:candlex, path: "../nx/candlex" },
   {:nx, "~> 0.5"},
   {:explorer, "~> 0.6"}
 ])
@@ -114,13 +114,13 @@ defmodule CreditCardFraud do
     |> Axon.Loop.evaluator()
     |> metrics()
     |> Axon.Loop.handle_event(:epoch_completed, &summarize/1)
-    |> Axon.Loop.run(test_data, model_state, compiler: EXLA)
+    |> Axon.Loop.run(test_data, model_state)
   end
 
   defp train_model(model, loss, optimizer, train_data) do
     model
     |> Axon.Loop.trainer(loss, optimizer)
-    |> Axon.Loop.run(train_data, %{}, epochs: 30, compiler: EXLA)
+    |> Axon.Loop.run(train_data, %{}, epochs: 30)
   end
 
   def run() do
@@ -163,4 +163,5 @@ defmodule CreditCardFraud do
   end
 end
 
+Nx.default_backend(Candlex.Backend)
 CreditCardFraud.run()

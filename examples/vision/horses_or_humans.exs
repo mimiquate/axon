@@ -2,7 +2,7 @@ Mix.install([
   {:stb_image, "~> 0.5.2"},
   {:axon, "~> 0.5"},
   {:polaris, "~> 0.1"},
-  {:exla, "~> 0.5"},
+  {:candlex, path: "../nx/candlex" },
   {:nx, "~> 0.5"}
 ])
 
@@ -74,7 +74,7 @@ defmodule HorsesOrHumans do
     model
     |> Axon.Loop.trainer(:binary_cross_entropy, optimizer, log: 1)
     |> Axon.Loop.metric(:accuracy)
-    |> Axon.Loop.run(data, %{}, epochs: epochs, iterations: 100, compiler: EXLA)
+    |> Axon.Loop.run(data, %{}, epochs: epochs, iterations: 100)
   end
 
   def run() do
@@ -92,4 +92,5 @@ defmodule HorsesOrHumans do
   end
 end
 
+Nx.default_backend(Candlex.Backend)
 HorsesOrHumans.run()

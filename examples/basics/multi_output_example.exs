@@ -1,6 +1,6 @@
 Mix.install([
   {:axon, "~> 0.5"},
-  {:exla, "~> 0.5"},
+  {:candlex, path: "../nx/candlex" },
   {:nx, "~> 0.5"}
 ])
 
@@ -62,10 +62,11 @@ defmodule Power do
     params =
       model
       |> Axon.Loop.trainer([mean_squared_error: 0.5, mean_squared_error: 0.5], :adam)
-      |> Axon.Loop.run(data, %{}, iterations: 250, epochs: 5, compiler: EXLA)
+      |> Axon.Loop.run(data, %{}, iterations: 250, epochs: 5)
 
     IO.inspect(Axon.predict(model, params, Nx.tensor([[3]])))
   end
 end
 
+Nx.default_backend(Candlex.Backend)
 Power.run()

@@ -1,6 +1,6 @@
 Mix.install([
   {:axon, "~> 0.5"},
-  {:exla, "~> 0.5"},
+  {:candlex, path: "../nx/candlex" },
   {:nx, "~> 0.5"},
   {:scidata, "~> 0.1"}
 ])
@@ -44,14 +44,14 @@ defmodule Cifar do
     model
     |> Axon.Loop.trainer(:categorical_cross_entropy, :adam)
     |> Axon.Loop.metric(:accuracy, "Accuracy")
-    |> Axon.Loop.run(Stream.zip(train_images, train_labels), %{}, epochs: epochs, compiler: EXLA)
+    |> Axon.Loop.run(Stream.zip(train_images, train_labels), %{}, epochs: epochs)
   end
 
   defp test_model(model, model_state, test_images, test_labels) do
     model
     |> Axon.Loop.evaluator()
     |> Axon.Loop.metric(:accuracy, "Accuracy")
-    |> Axon.Loop.run(Stream.zip(test_images, test_labels), model_state, compiler: EXLA)
+    |> Axon.Loop.run(Stream.zip(test_images, test_labels), model_state)
   end
 
   def run do
@@ -76,4 +76,5 @@ defmodule Cifar do
   end
 end
 
+Nx.default_backend(Candlex.Backend)
 Cifar.run()

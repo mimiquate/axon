@@ -1,6 +1,6 @@
 Mix.install([
   {:axon, "~> 0.5"},
-  {:exla, "~> 0.5"},
+  {:candlex, path: "../nx/candlex" },
   {:nx, "~> 0.5"},
   {:scidata, "~> 0.1"}
 ])
@@ -31,11 +31,11 @@ defmodule MnistDenoising do
     model_state =
       model
       |> Axon.Loop.trainer(:binary_cross_entropy, :adam)
-      |> Axon.Loop.run(train_data, %{}, epochs: @epochs, compiler: EXLA)
+      |> Axon.Loop.run(train_data, %{}, epochs: @epochs)
 
     # Predict on batches of test images
     test = noisy_test_images |> Enum.take(1) |> hd()
-    preds = Axon.predict(model, model_state, test, compiler: EXLA)
+    preds = Axon.predict(model, model_state, test)
 
     IO.write("\n\nNoisy Image\n\n")
     test |> display_image()
@@ -100,4 +100,5 @@ defmodule MnistDenoising do
   end
 end
 
+Nx.default_backend(Candlex.Backend)
 MnistDenoising.run()

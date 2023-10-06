@@ -1,6 +1,6 @@
 Mix.install([
   {:axon, "~> 0.5"},
-  {:exla, "~> 0.5"},
+  {:candlex, path: "../nx/candlex" },
   {:nx, "~> 0.5"}
 ])
 
@@ -27,7 +27,7 @@ defmodule XOR do
   defp train_model(model, data, epochs) do
     model
     |> Axon.Loop.trainer(:binary_cross_entropy, :sgd)
-    |> Axon.Loop.run(data, %{}, epochs: epochs, iterations: 1000, compiler: EXLA)
+    |> Axon.Loop.run(data, %{}, epochs: epochs, iterations: 1000)
   end
 
   def run do
@@ -42,4 +42,5 @@ defmodule XOR do
   end
 end
 
+Nx.default_backend(Candlex.Backend)
 XOR.run()

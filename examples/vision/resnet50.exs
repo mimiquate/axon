@@ -84,4 +84,5 @@ defmodule ResNet50 do
   end
 end
 
+Nx.default_backend(Candlex.Backend)
 IO.inspect(ResNet50.build_model({nil, 3, 224, 224}))
