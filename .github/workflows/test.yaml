@@ -25,6 +25,12 @@ jobs:
           - otp: "26.1.1"
             elixir: "1.15.6"
             lint: true
+          - otp: "26.1.1"
+            elixir: "1.15.6"
+            test_command_prepend: "USE_EXLA=true"
+          - otp: "26.1.1"
+            elixir: "1.15.6"
+            test_command_prepend: "USE_TORCHX=true"
           - otp: "25.3.2.6"
             elixir: "1.14.5"
           - otp: "25.3.2.6"
