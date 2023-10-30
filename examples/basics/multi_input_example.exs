@@ -1,6 +1,6 @@
 Mix.install([
   {:axon, "~> 0.5"},
-  {:candlex, "0.1.2-alpha1"},
+  {:candlex, "0.1.2-alpha2"},
   {:nx, "~> 0.5"}
 ])
 
