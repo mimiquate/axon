@@ -1,8 +1,15 @@
-Mix.install([
-  {:axon, "~> 0.5"},
-  {:candlex, "0.1.2-alpha2"},
-  {:nx, "~> 0.5"}
-])
+Mix.install(
+  [
+    {:axon, "~> 0.5"},
+    {:candlex, "0.1.3-alpha1"},
+    {:nx, "~> 0.5"}
+  ],
+  config: [
+    candlex: [
+      use_cuda: System.get_env("CANDLEX_NIF_TARGET") == "cuda"
+    ]
+  ]
+)
 
 defmodule XOR do
   require Axon
