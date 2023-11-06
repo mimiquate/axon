@@ -1,7 +1,7 @@
 Mix.install(
   [
     {:axon, "~> 0.5"},
-    {:candlex, "0.1.3-alpha1"},
+    {:candlex, "0.1.4"},
     {:nx, "~> 0.5"}
   ],
   config: [
